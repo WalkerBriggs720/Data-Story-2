@@ -1,0 +1,233 @@
+---
+title: "Data Story 2"
+author: "Walker Briggs"
+date: "2026-02-26"
+output: ioslides_presentation
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+library(dplyr)
+library(readr)
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+# Loading in my data from Our World in Data
+
+url <- 'https://ourworldindata.org/explorers/poverty-explorer.csv?v=1&csvType=full&useColumnShortNames=true&Indicator=Share+in+poverty&Poverty+line=%243+per+day%3A+International+Poverty+Line&Household+survey+data+type=Show+data+from+both+income+and+consumption+surveys&Show+breaks+between+less+comparable+surveys=false'
+poverty <- read_csv(url)
+# poverty %>% head
+
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+# Loading in my data from Our World in Data
+
+url <- 'https://ourworldindata.org/grapher/prevalence-of-undernourishment.csv?v=1&csvType=full&useColumnShortNames=true'
+food <- read_csv(url)
+# food %>% head
+
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+# Loading in my data from Our World in Data
+
+url <- 'https://ourworldindata.org/grapher/proportion-using-safely-managed-drinking-water.csv?v=1&csvType=full&useColumnShortNames=true'
+water <- read_csv(url)
+# water %>% head
+
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+# Loading in my data from Our World in Data
+
+url <- 'https://ourworldindata.org/grapher/deaths-in-armed-conflicts-by-country.csv?v=1&csvType=full&useColumnShortNames=true'
+war <- read_csv(url)
+# war %>% head
+
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+library(gapminder)
+library(dplyr)
+data(gapminder)
+#gapminder %>% head
+```
+
+
+## Main Focus: Extreme Poverty
+
+According to Our World In Data, extreme poverty is defined as living below
+the international poverty line of $3 per day.
+
+
+### **Key Objectives**:
+
+- *Objective 1*: Exploring global extreme poverty rates
+- *Objective 2*: Using malnourishment data
+- *Objective 3*: Incorporating accessibility to clean drinking water data
+- *Objective 4*: Is there a connection between extreme poverty and armed conflict?
+
+
+
+## Sustainable Development Goals
+- SDG 1: **No Poverty**
+
+&nbsp;
+
+- SDG 2: **Zero Hunger**
+
+&nbsp;
+
+- SDG 6: **Clean Water and Sanitation**
+
+&nbsp;
+&nbsp;
+
+*All data used for this data story was found from Our World In Data.*
+
+## Exploring The Data
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+library(dplyr)
+library(readr)
+library(ggplot2)
+
+poverty <- read_csv("https://ourworldindata.org/explorers/poverty-explorer.csv?v=1&csvType=full&useColumnShortNames=true&Indicator=Share+in+poverty&Poverty+line=%243+per+day%3A+International+Poverty+Line&Household+survey+data+type=Show+data+from+both+income+and+consumption+surveys&Show+breaks+between+less+comparable+surveys=false")
+
+poverty %>%
+  filter(country %in% c("Australia", "Russia", "Canada",
+                       "United States", "United Kingdom")) %>%
+  ggplot(aes(x = year,
+             y = `share_below_$3_a_day`,
+             color = country)) +
+   geom_path(size=1) +
+  labs(
+    title = "Countries Earning More Per Capita",
+    x = "Year",
+    y = "Earning below $3 per day (% of population)",
+    color = "Country")
+
+```
+
+## Exploring The Data
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+library(dplyr)
+library(readr)
+library(ggplot2)
+
+poverty <- read_csv("https://ourworldindata.org/explorers/poverty-explorer.csv?v=1&csvType=full&useColumnShortNames=true&Indicator=Share+in+poverty&Poverty+line=%243+per+day%3A+International+Poverty+Line&Household+survey+data+type=Show+data+from+both+income+and+consumption+surveys&Show+breaks+between+less+comparable+surveys=false")
+
+poverty %>%
+  filter(country %in% c("Democratic Republic of Congo", "Mozambique", "Malawi",
+                       "Burundi", "Zambia")) %>%
+  ggplot(aes(x = year,
+             y = `share_below_$3_a_day`,
+             color = country)) +
+   geom_path(size=1) +
+  labs(
+    title = "Countries Living In Extreme Poverty",
+    x = "Year",
+    y = "Earning below $3 per day (% of population)",
+    color = "Country")
+
+```
+
+## Exploring The Data
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+library(dplyr)
+library(readr)
+library(ggplot2)
+
+food <- read_csv("https://ourworldindata.org/grapher/prevalence-of-undernourishment.csv?v=1&csvType=full&useColumnShortNames=true")
+
+food %>%
+  filter(entity %in% c("Democratic Republic of Congo", "Mozambique", "Malawi",
+                       "Burundi", "Zambia")) %>%
+  ggplot(aes(x = year,
+             y = `_2_1_1_prevalence_of_undernourishment__000000000024000__value__006121__percent`,
+             color = entity)) +
+   geom_area(size=1) +
+  labs(
+    title = "Share of People Who Are Undernourished",
+    x = "Year",
+    y = "Percent of Population Undernourished",
+    color = "Country")
+
+```
+
+## Exploring The Data
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+library(dplyr)
+library(readr)
+library(ggplot2)
+
+water <- read_csv("https://ourworldindata.org/grapher/proportion-using-safely-managed-drinking-water.csv?v=1&csvType=full&useColumnShortNames=true")
+
+water %>%
+  filter(entity %in% c("Democratic Republic of Congo", "Mozambique", "Malawi",
+                       "Burundi", "Zambia")) %>%
+  ggplot(aes(x = year,
+             y = `wat_sm__residence_total`,
+             color = entity)) +
+   geom_area(size=1) +
+  labs(
+    title = "Share of People Using Managed/Safe Drinking Water",
+    x = "Year",
+    y = "Percent of Population Able to Access Clean Drinking Water",
+    color = "Country")
+
+```
+
+## Exploring The Data
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE }
+
+library(dplyr)
+library(readr)
+library(ggplot2)
+
+war <- read_csv("https://ourworldindata.org/grapher/deaths-in-armed-conflicts-by-country.csv?v=1&csvType=full&useColumnShortNames=true")
+
+war %>%
+  filter(entity %in% c("Democratic Republic of Congo", "Mozambique", "Malawi",
+                       "Burundi", "Zambia")) %>%
+  ggplot(aes(x = year,
+             y = `number_deaths_ongoing_conflicts__conflict_type_all`,
+             color = entity)) +
+   geom_path(size=1) +
+  labs(
+    title = "Deaths as a Result of Armed Conflict",
+    x = "Year",
+    y = "Number of Deaths",
+    color = "Country")
+
+```
+
+## Conclusion
+- Clear connection between extreme poverty and malnourishment.
+- People using managed/safe drinking water has been increasing since the 
+early 2000s for most impoverished countries.
+- The connection between extreme poverty and deaths as a result of armed
+conflict is more unclear. These regions experiencing extreme poverty have
+had armed conflict situations yet it may not have as direct of an impact
+on poverty. This is a misconception that many people, including myself
+fell victim to.
